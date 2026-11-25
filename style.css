@@ -1,0 +1,960 @@
+/* RESET & BASE */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  --bg-main: #06080d;
+  --card-bg: #0e131f;
+  --card-border: rgba(255, 255, 255, 0.1);
+  --text-main: #f9fafb;
+  --text-muted: #9ca3af;
+  --text-sub: #6b7280;
+  
+  --accent-blue: #3b82f6;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-red: #ef4444;
+  --accent-purple: #a855f7;
+  
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body.is-remote {
+  height: auto;
+  overflow-y: auto;
+}
+
+/* CONTENEDOR PRINCIPAL AJUSTADO A 1024x768 (SIN SCROLL) */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  padding: 14px 18px;
+  box-sizing: border-box;
+}
+
+/* BARRA SUPERIOR */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 42px;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.location-badge {
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  font-weight: 600;
+  color: #e5e7eb;
+  letter-spacing: 0.3px;
+}
+
+.icon-geo {
+  margin-right: 8px;
+  color: var(--accent-blue);
+}
+
+.top-status {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text-muted);
+  gap: 12px;
+}
+
+.live-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--accent-emerald);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0% { opacity: 0.5; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0.5; transform: scale(0.9); }
+}
+
+.btn-top {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f3f4f6;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-top:active {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(0.95);
+}
+
+/* GRID PRINCIPAL (2 COLUMNAS) */
+.main-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  grid-gap: 14px;
+  height: calc(100% - 54px);
+  min-height: 0;
+}
+
+.col-left, .col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+
+/* TARJETAS */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+}
+
+/* ==========================================
+   TARJETA 1: RELOJ GIGANTE (HERO)
+   ========================================== */
+.card-clock {
+  flex: 1.1;
+  justify-content: center;
+  background: radial-gradient(circle at top left, #172138, #0e1320);
+}
+
+.clock-display {
+  display: flex;
+  align-items: baseline;
+  line-height: 1;
+}
+
+.time-main {
+  font-size: 108px;
+  font-weight: 800;
+  letter-spacing: -3px;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.blink-colon {
+  display: inline-block;
+  margin: 0 3px;
+  animation: blink 1s step-end infinite;
+  color: var(--accent-blue);
+}
+
+@keyframes blink {
+  50% { opacity: 0.15; }
+}
+
+.time-seconds-box {
+  margin-left: 14px;
+}
+
+#clock-seconds {
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--accent-blue);
+  font-variant-numeric: tabular-nums;
+}
+
+.date-display {
+  font-size: 25px;
+  font-weight: 600;
+  color: #f3f4f6;
+  margin-top: 8px;
+  text-transform: capitalize;
+  letter-spacing: 0.2px;
+}
+
+.sun-cycle {
+  margin-top: 10px;
+}
+
+.sun-item {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 5px 14px;
+  border-radius: 20px;
+}
+
+/* ==========================================
+   TARJETA 2: CLIMA TEMUCO GIGANTE
+   ========================================== */
+.card-weather {
+  flex: 1;
+  justify-content: space-between;
+  background: radial-gradient(circle at bottom left, #121c2e, #0e131f);
+}
+
+.weather-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.weather-update-tag {
+  font-size: 13px;
+  color: var(--text-sub);
+  font-weight: 500;
+}
+
+.weather-main-row {
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
+}
+
+.weather-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 18px;
+}
+
+.weather-temp-box {
+  display: flex;
+  align-items: flex-start;
+  margin-right: 22px;
+}
+
+.temp-val {
+  font-size: 70px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.temp-unit {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent-blue);
+  margin-top: 4px;
+  margin-left: 2px;
+}
+
+.weather-desc-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.weather-desc {
+  font-size: 23px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: capitalize;
+}
+
+.weather-apparent {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.weather-metrics {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-sub);
+  text-transform: uppercase;
+}
+
+.metric-val {
+  font-size: 17px;
+  font-weight: 700;
+  color: #f3f4f6;
+  margin-top: 2px;
+}
+
+.weather-forecast-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.forecast-day {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  text-align: center;
+}
+
+.forecast-day-name {
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.forecast-temp {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 15px;
+  margin-top: 2px;
+}
+
+/* ==========================================
+   TARJETA 3: RADIOS EN VIVO (4 EMISORAS HERO)
+   ========================================== */
+.card-music {
+  flex: 1.25;
+  justify-content: space-between;
+  background: radial-gradient(circle at top right, #1c182a, #0e121d);
+}
+
+.music-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.music-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-bluetooth {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #60a5fa;
+  background: rgba(59, 130, 246, 0.18);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  padding: 6px 14px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.badge-bluetooth:active {
+  transform: scale(0.95);
+  background: rgba(59, 130, 246, 0.32);
+}
+
+/* CUADRÍCULA 2x2 PARA LAS 4 RADIOS */
+.station-grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin: 6px 0;
+}
+
+.station-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-md);
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.station-card:active {
+  transform: scale(0.96);
+}
+
+.station-card.active {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.4);
+}
+
+.station-logo {
+  font-size: 13px;
+  font-weight: 900;
+  padding: 6px 8px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+.station-logo.adn { background: #dc2626; }
+.station-logo.biobio { background: #2563eb; }
+.station-logo.futuro { background: #d97706; }
+.station-logo.rockpop { background: #9333ea; }
+
+.station-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.station-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.station-dial {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* PANEL DEL REPRODUCTOR ACTIVO */
+.player-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+}
+
+.player-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.album-art {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #2563eb, #111827);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  color: #93c5fd;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+.radio-disc-icon {
+  animation: spin 7s linear infinite;
+  animation-play-state: paused;
+}
+
+.radio-disc-icon.playing {
+  animation-play-state: running;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.sound-wave {
+  position: absolute;
+  bottom: 4px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+}
+
+.sound-wave span {
+  width: 3px;
+  background: #60a5fa;
+  border-radius: 2px;
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+.sound-wave.paused span {
+  animation-play-state: paused;
+  height: 3px !important;
+}
+
+.sound-wave span:nth-child(1) { height: 5px; animation-delay: 0.1s; }
+.sound-wave span:nth-child(2) { height: 14px; animation-delay: 0.3s; }
+.sound-wave span:nth-child(3) { height: 9px; animation-delay: 0.2s; }
+.sound-wave span:nth-child(4) { height: 12px; animation-delay: 0.4s; }
+.sound-wave span:nth-child(5) { height: 7px; animation-delay: 0.15s; }
+
+.track-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.track-artist {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.stream-status {
+  font-size: 13px;
+  font-weight: 700;
+  color: #60a5fa;
+  margin-top: 2px;
+}
+
+/* BOTÓN HERO PLAY/PAUSE GRANDE */
+.btn-play-pause-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  font-size: 17px;
+  font-weight: 700;
+  padding: 12px 22px;
+  border-radius: 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(37, 99, 235, 0.5);
+  transition: all 0.15s ease;
+}
+
+.btn-play-pause-hero:active {
+  transform: scale(0.95);
+  background: #1d4ed8;
+}
+
+.btn-play-pause-hero.playing {
+  background: #dc2626;
+  box-shadow: 0 4px 18px rgba(220, 38, 38, 0.5);
+}
+
+/* ==========================================
+   TARJETA 4: CONTROL DEL HOGAR
+   ========================================== */
+.card-smarthome {
+  flex: 0.75;
+  justify-content: space-between;
+}
+
+.smarthome-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.smarthome-count {
+  font-size: 13px;
+  color: var(--accent-emerald);
+  font-weight: 700;
+}
+
+.device-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin-top: 4px;
+}
+
+.device-tile {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.device-tile:active {
+  transform: scale(0.97);
+}
+
+.device-tile.on {
+  background: rgba(16, 185, 129, 0.18);
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+.device-tile.on .tile-state {
+  color: var(--accent-emerald);
+  font-weight: 700;
+}
+
+.tile-icon {
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.tile-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f3f4f6;
+}
+
+.tile-state {
+  font-size: 12px;
+  color: var(--text-sub);
+  margin-top: 2px;
+}
+
+/* ADAPTACIÓN EN VERTICAL SI CAMBIA DE ORIENTACIÓN */
+@media (max-width: 800px), (orientation: portrait) {
+  .dashboard-container {
+    height: auto;
+    overflow-y: auto;
+  }
+  .main-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .time-main {
+    font-size: 78px;
+  }
+}
+
+/* ==========================================
+   BOTÓN SMART CONNECT EN BARRA SUPERIOR
+   ========================================== */
+.btn-connect {
+  background: rgba(16, 185, 129, 0.16);
+  border-color: rgba(16, 185, 129, 0.45);
+  color: #34d399;
+}
+
+.btn-connect:active {
+  background: rgba(16, 185, 129, 0.35);
+}
+
+/* ==========================================
+   MODALES (BLUETOOTH Y SMART CONNECT)
+   ========================================== */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.78);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-card {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.modal-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.modal-close {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #e5e7eb;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 20px 22px;
+}
+
+.modal-info {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #d1d5db;
+  margin-bottom: 14px;
+}
+
+.steps-box {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+
+.step-item {
+  font-size: 14px;
+  color: #f3f4f6;
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+.step-item:last-child {
+  margin-bottom: 0;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-primary-modal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-primary-modal:active {
+  background: #1d4ed8;
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e5e7eb;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secondary:active {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.modal-hint {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #9ca3af;
+}
+
+.connect-modal-body {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.qr-box {
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+
+.qr-box img {
+  display: block;
+}
+
+.connect-details {
+  flex: 1;
+}
+
+.room-code-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #d1fae5;
+}
+
+.room-code-box strong {
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: #34d399;
+}
+
+.connect-url-box {
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 11px;
+  color: #93c5fd;
+  word-break: break-all;
+  margin-bottom: 12px;
+  font-family: monospace;
+}
+
+.connect-actions-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 560px) {
+  .connect-modal-body {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ==========================================
+   VISTA 2: CONTROL REMOTO MÓVIL (SPOTIFY CONNECT STYLE)
+   ========================================== */
+.remote-container {
+  min-height: 100vh;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 18px 16px 32px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.remote-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remote-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #e5e7eb;
+}
+
+.remote-now-playing {
+  background: radial-gradient(circle at top right, #1e293b, #0e131f);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.remote-target-label {
+  font-size: 13px;
+  color: #34d399;
+  margin-bottom: 8px;
+}
+
+.remote-track-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.remote-track-status {
+  font-size: 14px;
+  color: #9ca3af;
+  margin-bottom: 16px;
+}
+
+.remote-play-btn {
+  width: 100%;
+  justify-content: center;
+  padding: 14px 24px;
+}
+
+.remote-section-title {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+.remote-stations-grid,
+.remote-devices-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.remote-footer-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.remote-footer-actions button {
+  flex: 1;
+}

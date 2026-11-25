@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Smart Wall">
+  <meta name="theme-color" content="#07090e">
+  <title>Smart Wall · Temuco</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+  <!-- ==========================================
+       VISTA 1: TABLERO DE PARED (IPAD MINI 2)
+       ========================================== -->
+  <div class="dashboard-container" id="dashboard-view">
+    
+    <!-- BARRA SUPERIOR -->
+    <header class="top-bar">
+      <div class="location-badge">
+        <svg class="icon-geo" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        <span>Temuco, Chile</span>
+      </div>
+
+      <div class="top-status">
+        <span class="live-dot" id="sync-dot" title="Sincronización remota"></span>
+        <span id="network-status">En línea</span>
+
+        <!-- Botón Smart Connect (Control desde otros dispositivos) -->
+        <button id="btn-connect" class="btn-top btn-connect" title="Controlar desde otro teléfono o PC">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.3">
+            <rect x="7" y="2" width="10" height="20" rx="2" ry="2"></rect>
+            <line x1="12" y1="18" x2="12" y2="18.01"></line>
+          </svg>
+          <span>Control Remoto</span>
+        </button>
+
+        <!-- Botón Recargar grande para iPad -->
+        <button id="btn-reload" class="btn-top" title="Recargar pantalla">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M23 4v6h-6M1 20v-6h6"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+          <span>Recargar</span>
+        </button>
+
+        <button id="btn-fullscreen" class="btn-top" title="Pantalla Completa">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- GRID PRINCIPAL (COLUMNAS BALANCEADAS PARA 1024x768) -->
+    <main class="main-grid">
+
+      <!-- COLUMNA IZQUIERDA: HORA & CLIMA GRANDE -->
+      <div class="col-left">
+
+        <!-- TARJETA 1: RELOJ Y FECHA GIGANTE -->
+        <section class="card card-clock">
+          <div class="clock-display">
+            <div class="time-main">
+              <span id="clock-hours">--</span><span class="blink-colon">:</span><span id="clock-minutes">--</span>
+            </div>
+            <div class="time-seconds-box">
+              <span id="clock-seconds">--</span>
+            </div>
+          </div>
+          <div class="date-display" id="date-display">Cargando fecha...</div>
+          <div class="sun-cycle" id="sun-cycle">
+            <span class="sun-item" id="greeting-text">Buenas noches</span>
+          </div>
+        </section>
+
+        <!-- TARJETA 2: CLIMA TEMUCO GIGANTE -->
+        <section class="card card-weather">
+          <div class="weather-header">
+            <span class="section-title">Clima en Temuco</span>
+            <span class="weather-update-tag" id="weather-update-time">Actualizado recién</span>
+          </div>
+          
+          <div class="weather-main-row">
+            <div class="weather-icon-container" id="weather-icon">
+              <svg viewBox="0 0 64 64" width="76" height="76" fill="none">
+                <circle cx="32" cy="32" r="16" fill="#fbbf24"/>
+              </svg>
+            </div>
+            <div class="weather-temp-box">
+              <span class="temp-val" id="weather-temp">--</span>
+              <span class="temp-unit">°C</span>
+            </div>
+            <div class="weather-desc-box">
+              <div class="weather-desc" id="weather-desc">Obteniendo clima...</div>
+              <div class="weather-apparent">Sensación <span id="weather-apparent">--</span>°C</div>
+            </div>
+          </div>
+
+          <div class="weather-metrics">
+            <div class="metric-item">
+              <span class="metric-label">Humedad</span>
+              <span class="metric-val" id="weather-humidity">--%</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-label">Viento</span>
+              <span class="metric-val" id="weather-wind">-- km/h</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-label">Mín / Máx</span>
+              <span class="metric-val" id="weather-minmax">--° / --°</span>
+            </div>
+          </div>
+
+          <!-- Mini pronóstico 3 días -->
+          <div class="weather-forecast-row" id="weather-forecast">
+            <!-- Insertado por JS -->
+          </div>
+        </section>
+
+      </div>
+
+      <!-- COLUMNA DERECHA: RADIOS EN VIVO & HOGAR -->
+      <div class="col-right">
+
+        <!-- TARJETA 3: REPRODUCTOR DE RADIOS EN VIVO (4 EMISORAS) -->
+        <section class="card card-music">
+          <div class="music-header">
+            <div class="music-brand">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="#3b82f6">
+                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+              </svg>
+              <span class="section-title">Radios en Vivo</span>
+            </div>
+            <button class="badge-bluetooth" id="btn-bluetooth" type="button" title="Conectar Parlante Bluetooth">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+                <path d="M17.71 7.71L12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29zM13 5.83l1.88 1.88L13 9.59V5.83zm1.88 10.46L13 18.17v-3.76l1.88 1.88z"/>
+              </svg>
+              <span>Conectar Bluetooth</span>
+            </button>
+          </div>
+
+          <!-- LAS 4 RADIOS EN CUADRÍCULA 2x2 GRANDE -->
+          <div class="station-grid-4">
+            <button class="station-card active" data-id="adn" data-url="https://playerservices.streamtheworld.com/api/livestream-redirect/ADNAAC.aac" data-name="Radio ADN" data-sub="Actualidad & Deportes · 91.7 FM">
+              <span class="station-logo adn">ADN</span>
+              <div class="station-meta">
+                <span class="station-title">Radio ADN</span>
+                <span class="station-dial">91.7 FM</span>
+              </div>
+            </button>
+
+            <button class="station-card" data-id="biobio" data-url="https://unlimited3-cl.dps.live/biobiosantiago/mp3/icecast.audio" data-name="Radio Bío-Bío" data-sub="Temuco y Red Nacional · 88.1 FM">
+              <span class="station-logo biobio">BÍO</span>
+              <div class="station-meta">
+                <span class="station-title">Bío-Bío</span>
+                <span class="station-dial">88.1 FM</span>
+              </div>
+            </button>
+
+            <button class="station-card" data-id="futuro" data-url="https://playerservices.streamtheworld.com/api/livestream-redirect/FUTUROAAC.aac" data-name="Radio Futuro" data-sub="La Radio del Rock · 88.9 FM">
+              <span class="station-logo futuro">FUT</span>
+              <div class="station-meta">
+                <span class="station-title">Futuro</span>
+                <span class="station-dial">88.9 FM</span>
+              </div>
+            </button>
+
+            <button class="station-card" data-id="rockpop" data-url="https://playerservices.streamtheworld.com/api/livestream-redirect/ROCK_AND_POPAAC.aac" data-name="Rock & Pop" data-sub="Música 24/7 · 94.1 FM">
+              <span class="station-logo rockpop">R&P</span>
+              <div class="station-meta">
+                <span class="station-title">Rock & Pop</span>
+                <span class="station-dial">94.1 FM</span>
+              </div>
+            </button>
+          </div>
+
+          <!-- BANNER DE REPRODUCCIÓN ACTUAL -->
+          <div class="player-panel">
+            <div class="player-left">
+              <div class="album-art" id="album-art">
+                <div class="radio-disc-icon">
+                  <svg viewBox="0 0 24 24" width="38" height="38" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/>
+                  </svg>
+                </div>
+                <div class="sound-wave paused" id="sound-wave">
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+
+              <div class="music-info">
+                <div class="track-title" id="track-title">Radio ADN</div>
+                <div class="track-artist" id="track-artist">Toca Reproducir para escuchar</div>
+                <div class="stream-status" id="stream-status">Listo · Toca la pantalla 1 vez para audio remoto</div>
+              </div>
+            </div>
+
+            <button class="btn-play-pause-hero" id="btn-play-pause">
+              <svg id="play-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <svg id="pause-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor" style="display:none;">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+              <span id="play-btn-label">Reproducir</span>
+            </button>
+          </div>
+
+          <!-- Audio tag nativo -->
+          <audio id="radio-audio" preload="none"></audio>
+        </section>
+
+        <!-- TARJETA 4: CONTROL DEL HOGAR (EXPANDIBLE) -->
+        <section class="card card-smarthome">
+          <div class="smarthome-header">
+            <span class="section-title">Hogar Inteligente</span>
+            <span class="smarthome-count" id="active-devices-count">0 encendidos</span>
+          </div>
+
+          <div class="device-tiles">
+            <div class="device-tile" data-device="luz-living">
+              <div class="tile-icon">💡</div>
+              <div class="tile-info">
+                <div class="tile-name">Luz Living</div>
+                <div class="tile-state">Apagada</div>
+              </div>
+            </div>
+
+            <div class="device-tile" data-device="luz-cocina">
+              <div class="tile-icon">🛋️</div>
+              <div class="tile-info">
+                <div class="tile-name">Lámpara</div>
+                <div class="tile-state">Apagada</div>
+              </div>
+            </div>
+
+            <div class="device-tile" data-device="parlante-bt">
+              <div class="tile-icon">🔌</div>
+              <div class="tile-info">
+                <div class="tile-name">Enchufe Parlante</div>
+                <div class="tile-state">Apagado</div>
+              </div>
+            </div>
+
+            <div class="device-tile" data-device="modo-noche">
+              <div class="tile-icon">🌙</div>
+              <div class="tile-info">
+                <div class="tile-name">Modo Noche</div>
+                <div class="tile-state">Desactivado</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- ==========================================
+       VISTA 2: MODO CONTROL REMOTO (CELULAR / PC)
+       Estilo Spotify Connect para manejar el iPad
+       ========================================== -->
+  <div class="remote-container" id="remote-view" style="display:none;">
+    <header class="remote-header">
+      <div class="remote-badge">
+        <span class="live-dot" id="remote-sync-dot"></span>
+        <span>Smart Connect · Sala <strong id="remote-room-label">----</strong></span>
+      </div>
+      <button class="btn-top" id="btn-exit-remote" type="button">Ver Tablero</button>
+    </header>
+
+    <div class="remote-now-playing">
+      <div class="remote-target-label">Reproduciendo en: <strong>📱 iPad Pared (Temuco)</strong></div>
+      <div class="remote-track-title" id="remote-track-title">Sincronizando...</div>
+      <div class="remote-track-status" id="remote-track-status">Conectando con tu iPad</div>
+      <button class="btn-play-pause-hero remote-play-btn" id="remote-btn-play" type="button">
+        <span id="remote-play-label">Reproducir / Pausar</span>
+      </button>
+    </div>
+
+    <div class="remote-section-title">Cambiar Radio en el iPad</div>
+    <div class="remote-stations-grid">
+      <button class="station-card remote-station" data-id="adn" type="button">
+        <span class="station-logo adn">ADN</span>
+        <div class="station-meta">
+          <span class="station-title">Radio ADN</span>
+          <span class="station-dial">91.7 FM</span>
+        </div>
+      </button>
+      <button class="station-card remote-station" data-id="biobio" type="button">
+        <span class="station-logo biobio">BÍO</span>
+        <div class="station-meta">
+          <span class="station-title">Bío-Bío</span>
+          <span class="station-dial">88.1 FM</span>
+        </div>
+      </button>
+      <button class="station-card remote-station" data-id="futuro" type="button">
+        <span class="station-logo futuro">FUT</span>
+        <div class="station-meta">
+          <span class="station-title">Futuro</span>
+          <span class="station-dial">88.9 FM</span>
+        </div>
+      </button>
+      <button class="station-card remote-station" data-id="rockpop" type="button">
+        <span class="station-logo rockpop">R&P</span>
+        <div class="station-meta">
+          <span class="station-title">Rock & Pop</span>
+          <span class="station-dial">94.1 FM</span>
+        </div>
+      </button>
+    </div>
+
+    <div class="remote-section-title">Hogar Inteligente</div>
+    <div class="remote-devices-grid">
+      <button class="device-tile remote-device" data-device="luz-living" type="button">
+        <div class="tile-icon">💡</div>
+        <div class="tile-info">
+          <div class="tile-name">Luz Living</div>
+          <div class="tile-state">Apagada</div>
+        </div>
+      </button>
+      <button class="device-tile remote-device" data-device="luz-cocina" type="button">
+        <div class="tile-icon">🛋️</div>
+        <div class="tile-info">
+          <div class="tile-name">Lámpara</div>
+          <div class="tile-state">Apagada</div>
+        </div>
+      </button>
+      <button class="device-tile remote-device" data-device="parlante-bt" type="button">
+        <div class="tile-icon">🔌</div>
+        <div class="tile-info">
+          <div class="tile-name">Enchufe Parlante</div>
+          <div class="tile-state">Apagado</div>
+        </div>
+      </button>
+      <button class="device-tile remote-device" data-device="modo-noche" type="button">
+        <div class="tile-icon">🌙</div>
+        <div class="tile-info">
+          <div class="tile-name">Modo Noche</div>
+          <div class="tile-state">Desactivado</div>
+        </div>
+      </button>
+    </div>
+
+    <div class="remote-footer-actions">
+      <button class="btn-secondary" id="btn-remote-refresh" type="button">🔄 Actualizar estado</button>
+      <button class="btn-secondary" id="btn-remote-reload-ipad" type="button">⚡ Reiniciar pantalla iPad</button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 1: CONECTAR BLUETOOTH AL PARLANTE
+       ========================================== -->
+  <div class="modal-backdrop" id="modal-bluetooth" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>📶 Conectar Parlante Bluetooth</h3>
+        <button class="modal-close" data-close="modal-bluetooth" type="button">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-info">
+          Por seguridad de Apple, Safari en iOS 12 no permite conectar dispositivos Bluetooth directamente desde una página web.
+        </p>
+        <div class="steps-box">
+          <div class="step-item"><strong>1.</strong> Desliza desde arriba a la derecha (o desde abajo en el iPad) para abrir el <strong>Centro de Control</strong>.</div>
+          <div class="step-item"><strong>2.</strong> Toca el ícono de ondas <strong>(AirPlay / Audio)</strong> en el cuadro de música y elige tu parlante Bluetooth.</div>
+        </div>
+        <div class="modal-actions">
+          <a href="shortcuts://run-shortcut?name=Parlante" class="btn-primary-modal" id="btn-bt-shortcut">
+            ⚡ Ejecutar Atajo "Parlante"
+          </a>
+          <p class="modal-hint">
+            Tip: Si creas un atajo llamado <strong>Parlante</strong> en la app Atajos del iPad con la acción <em>"Definir destino de reproducción"</em> (sin Acceso Guiado), este botón conectará el parlante al instante.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 2: SMART CONNECT (CONTROL REMOTO)
+       ========================================== -->
+  <div class="modal-backdrop" id="modal-connect" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>📱 Controlar desde otro equipo</h3>
+        <button class="modal-close" data-close="modal-connect" type="button">✕</button>
+      </div>
+      <div class="modal-body connect-modal-body">
+        <div class="qr-box">
+          <img id="connect-qr-img" src="" alt="QR Control Remoto" width="160" height="160">
+        </div>
+        <div class="connect-details">
+          <p class="modal-info">
+            Escanea este QR con tu celular (o abre el enlace en tu Mac) para cambiar la radio del iPad en tiempo real desde cualquier lugar de la casa:
+          </p>
+          <div class="room-code-box">
+            <span>Código de tu iPad:</span>
+            <strong id="connect-room-code">----</strong>
+          </div>
+          <div class="connect-url-box" id="connect-url-text">...</div>
+          <div class="connect-actions-row">
+            <button class="btn-primary-modal" id="btn-switch-to-remote" type="button">📱 Abrir Control aquí</button>
+            <button class="btn-secondary" id="btn-new-room-code" type="button">🔄 Nuevo código</button>
+          </div>
+          <p class="modal-hint">
+            Importante: Para que Safari en iOS 12 deje sonar audio activado remotamente, toca la pantalla del iPad al menos 1 vez después de abrir la página.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=4"></script>
+</body>
+</html>
