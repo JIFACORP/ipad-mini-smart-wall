@@ -10,7 +10,7 @@
   <title>Smart Wall · Temuco</title>
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="apple-touch-icon" href="icon.svg">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
   <!-- ==========================================
@@ -18,23 +18,21 @@
        ========================================== -->
   <div class="dashboard-container" id="dashboard-view">
     
-    <!-- BARRA SUPERIOR MINIMALISTA APPLE -->
+    <!-- BARRA SUPERIOR MINIMALISTA -->
     <header class="top-bar">
       <div class="location-badge">
-        <svg class="icon-geo" viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+        <svg class="icon-geo" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
           <path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/>
         </svg>
-        <span>Temuco, Chile</span>
+        <span class="loc-text">Temuco, Chile</span>
         <span class="top-sep">·</span>
-        <span class="top-sync-wrap">
-          <span class="live-dot" id="sync-dot"></span>
-          <span id="network-status">En línea</span>
-        </span>
+        <span class="live-dot" id="sync-dot"></span>
+        <span id="network-status">En línea</span>
       </div>
 
       <div class="top-actions">
         <button id="btn-connect" class="apple-pill-btn green" type="button" title="Controlar desde otro teléfono o PC">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2">
             <rect x="7" y="2" width="10" height="20" rx="2" ry="2"></rect>
             <line x1="12" y1="18" x2="12" y2="18.01"></line>
           </svg>
@@ -42,7 +40,7 @@
         </button>
 
         <button id="btn-reload" class="apple-pill-btn" type="button" title="Recargar pantalla">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2">
             <path d="M23 4v6h-6M1 20v-6h6"/>
             <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
           </svg>
@@ -50,7 +48,7 @@
         </button>
 
         <button id="btn-fullscreen" class="apple-pill-btn icon-only" type="button" title="Pantalla Completa">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2">
             <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
           </svg>
         </button>
@@ -60,7 +58,7 @@
     <!-- GRID PRINCIPAL APPLE WIDGETS -->
     <main class="main-grid">
 
-      <!-- COLUMNA IZQUIERDA: RELOJ STANDBY & APPLE WEATHER -->
+      <!-- COLUMNA IZQUIERDA: RELOJ & CLIMA -->
       <div class="col-left">
 
         <!-- WIDGET 1: RELOJ STANDBY -->
@@ -81,49 +79,50 @@
 
         <!-- WIDGET 2: CLIMA APPLE WEATHER (HOY + MAÑANA + 2 DÍAS) -->
         <section class="widget widget-weather" id="widget-weather">
-          <div class="weather-current-row">
-            <div class="weather-current-left">
-              <div class="weather-city-line">
-                <span>Temuco</span>
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-                  <path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/>
-                </svg>
+          <div class="weather-top-block">
+            <div class="weather-current-row">
+              <div class="weather-current-left">
+                <div class="weather-city-line">
+                  <span>Temuco</span>
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+                    <path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/>
+                  </svg>
+                </div>
+                <div class="weather-temp-hero">
+                  <span id="weather-temp">--</span><span class="deg">°</span>
+                </div>
               </div>
-              <div class="weather-temp-hero">
-                <span id="weather-temp">--</span><span class="deg">°</span>
-              </div>
-              <div class="weather-sub-metrics">
-                <span>Sens. <strong id="weather-apparent">--°</strong></span>
-                <span>·</span>
-                <span>Hum. <strong id="weather-humidity">--%</strong></span>
-                <span>·</span>
-                <span>Viento <strong id="weather-wind">--</strong></span>
+
+              <div class="weather-current-right">
+                <div class="weather-icon-hero" id="weather-icon"></div>
+                <div class="weather-desc-hero" id="weather-desc">Cargando...</div>
+                <div class="weather-minmax-hero" id="weather-minmax">Máx --° · Mín --°</div>
               </div>
             </div>
 
-            <div class="weather-current-right">
-              <div class="weather-icon-hero" id="weather-icon">
-                <!-- Icono SVG Apple Weather -->
-              </div>
-              <div class="weather-desc-hero" id="weather-desc">Cargando...</div>
-              <div class="weather-minmax-hero" id="weather-minmax">Máx --° · Mín --°</div>
+            <div class="weather-sub-metrics">
+              <span>Sensación <strong id="weather-apparent">--°</strong></span>
+              <span class="dot-sep">·</span>
+              <span>Humedad <strong id="weather-humidity">--%</strong></span>
+              <span class="dot-sep">·</span>
+              <span>Viento <strong id="weather-wind">--</strong></span>
             </div>
           </div>
 
           <div class="weather-divider"></div>
 
-          <!-- PRONÓSTICO DIARIO (DESTACANDO MAÑANA + SIGUIENTES DÍAS) -->
+          <!-- PRONÓSTICO DIARIO (DESTACANDO MAÑANA + 2 DÍAS) -->
           <div class="weather-forecast-list" id="weather-forecast">
-            <!-- Rellenado dinámicamente por JS: Mañana + próximos 2 días con icono y texto -->
+            <!-- Rellenado dinámicamente por JS -->
           </div>
         </section>
 
       </div>
 
-      <!-- COLUMNA DERECHA: APPLE MUSIC RADIO & APPLE HOME -->
+      <!-- COLUMNA DERECHA: RADIO & CASA -->
       <div class="col-right">
 
-        <!-- WIDGET 3: REPRODUCTOR DE RADIOS ESTILO APPLE MUSIC -->
+        <!-- WIDGET 3: RADIO EN VIVO + ÚLTIMAS 3 -->
         <section class="widget widget-music" id="widget-music">
           <div class="widget-header">
             <div class="widget-title-group">
@@ -133,15 +132,15 @@
 
             <div class="music-header-actions">
               <button class="apple-mini-pill bt" id="btn-bluetooth" type="button" title="Conectar Parlante Bluetooth">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
                   <path d="M17.71 7.71L12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29zM13 5.83l1.88 1.88L13 9.59V5.83zm1.88 10.46L13 18.17v-3.76l1.88 1.88z"/>
                 </svg>
                 <span>Bluetooth</span>
               </button>
 
               <button class="apple-mini-pill catalog" id="btn-all-radios" type="button">
-                <span>Todas las radios (19)</span>
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5">
+                <span>Radios (19)</span>
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5">
                   <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
               </button>
@@ -164,10 +163,10 @@
             </div>
 
             <button class="apple-play-circle" id="btn-play-pause" type="button" aria-label="Reproducir o pausar">
-              <svg id="play-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+              <svg id="play-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                 <path d="M8 5.14v14l11-7-11-7z"/>
               </svg>
-              <svg id="pause-icon" viewBox="0 0 24 24" width="26" height="26" fill="currentColor" style="display:none;">
+              <svg id="pause-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" style="display:none;">
                 <rect x="6" y="5" width="4.5" height="14" rx="1.5"/>
                 <rect x="13.5" y="5" width="4.5" height="14" rx="1.5"/>
               </svg>
@@ -176,9 +175,7 @@
 
           <!-- LAS 3 ÚLTIMAS RADIOS ELEGIDAS -->
           <div class="recents-section">
-            <div class="recents-header">
-              <span class="recents-label">Últimas 3 elegidas</span>
-            </div>
+            <div class="recents-label">Últimas elegidas</div>
             <div class="recent-radios-grid" id="recent-radios-grid">
               <!-- Rellenado dinámicamente con las últimas 3 radios -->
             </div>
@@ -187,7 +184,7 @@
           <audio id="radio-audio" preload="none"></audio>
         </section>
 
-        <!-- WIDGET 4: HOGAR INTELIGENTE ESTILO APPLE HOME -->
+        <!-- WIDGET 4: CASA (APPLE HOME) -->
         <section class="widget widget-home">
           <div class="widget-header">
             <div class="widget-title-group">
@@ -244,7 +241,7 @@
     <header class="remote-header">
       <div class="remote-badge">
         <span class="live-dot" id="remote-sync-dot"></span>
-        <span>iPad Pared · Sala <strong id="remote-room-label">----</strong></span>
+        <span class="remote-badge-text">iPad Pared · Sala <strong id="remote-room-label">----</strong></span>
       </div>
       <button class="apple-pill-btn" id="btn-exit-remote" type="button">Ver Tablero</button>
     </header>
@@ -391,6 +388,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

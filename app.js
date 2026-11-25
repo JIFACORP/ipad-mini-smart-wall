@@ -423,7 +423,7 @@
           elMinMax.textContent = 'Máx ' + maxToday + '° · Mín ' + minToday + '°';
         }
 
-        const currentInfo = getAppleWeatherIcon(current.weather_code, current.is_day === 1, 66);
+        const currentInfo = getAppleWeatherIcon(current.weather_code, current.is_day === 1, 54);
         elDesc.textContent = currentInfo.text;
         elIcon.innerHTML = currentInfo.svg;
 
@@ -436,7 +436,7 @@
             const isTomorrow = (i === 1);
             const dayLabel = isTomorrow ? 'Mañana' : diasSemana[d.getDay()];
             const dayCode = daily.weather_code[i];
-            const dayInfo = getAppleWeatherIcon(dayCode, true, 28);
+            const dayInfo = getAppleWeatherIcon(dayCode, true, 24);
             const dayMax = Math.round(daily.temperature_2m_max[i]);
             const dayMin = Math.round(daily.temperature_2m_min[i]);
 
@@ -527,11 +527,11 @@
       if (!st) continue;
       const activeCls = st.id === currentStationId ? ' active' : '';
       html += '<button class="recent-radio-tile' + activeCls + '" data-id="' + st.id + '" type="button">' +
-        '<span class="mini-badge" style="background:' + st.color + ';">' + st.mono + '</span>' +
-        '<div class="mini-meta">' +
-          '<div class="mini-name">' + st.name + '</div>' +
-          '<div class="mini-dial">' + st.dial + '</div>' +
+        '<div class="mini-top-row">' +
+          '<span class="mini-badge" style="background:' + st.color + ';">' + st.mono + '</span>' +
+          '<span class="mini-dial">' + st.dial + '</span>' +
         '</div>' +
+        '<div class="mini-name">' + st.name + '</div>' +
       '</button>';
     }
     elRecentGrid.innerHTML = html;
