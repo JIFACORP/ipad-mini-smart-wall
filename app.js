@@ -393,7 +393,7 @@
     const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT_TEMUCO +
       '&longitude=' + LON_TEMUCO +
       '&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m' +
-      '&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=America%2FSantiago';
+      '&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=8&timezone=America%2FSantiago';
 
     fetch(url)
       .then(function(res) {
@@ -423,20 +423,21 @@
           elMinMax.textContent = 'Máx ' + maxToday + '° · Mín ' + minToday + '°';
         }
 
-        const currentInfo = getAppleWeatherIcon(current.weather_code, current.is_day === 1, 54);
+        const currentInfo = getAppleWeatherIcon(current.weather_code, current.is_day === 1, 46);
         elDesc.textContent = currentInfo.text;
         elIcon.innerHTML = currentInfo.svg;
 
-        // Pronóstico: Mañana + siguientes 2 días con icono, texto de condición y temperaturas
-        if (daily && daily.time && daily.time.length > 3) {
+        // Pronóstico de 7 días (Mañana + siguientes 6 días)
+        if (daily && daily.time && daily.time.length > 1) {
           let html = '';
-          for (let i = 1; i <= 3; i++) {
+          const totalDays = Math.min(7, daily.time.length - 1);
+          for (let i = 1; i <= totalDays; i++) {
             const dateStr = daily.time[i];
             const d = new Date(dateStr + 'T12:00:00');
             const isTomorrow = (i === 1);
             const dayLabel = isTomorrow ? 'Mañana' : diasSemana[d.getDay()];
             const dayCode = daily.weather_code[i];
-            const dayInfo = getAppleWeatherIcon(dayCode, true, 24);
+            const dayInfo = getAppleWeatherIcon(dayCode, true, 22);
             const dayMax = Math.round(daily.temperature_2m_max[i]);
             const dayMin = Math.round(daily.temperature_2m_min[i]);
 

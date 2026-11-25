@@ -160,7 +160,7 @@ body.is-remote {
 
 .col-left {
   display: grid;
-  grid-template-rows: 0.72fr 1.28fr;
+  grid-template-rows: 0.56fr 1.44fr;
   grid-gap: 12px;
   min-height: 0;
 }
@@ -208,6 +208,7 @@ body.is-remote {
    ============================================================ */
 .widget-clock {
   justify-content: center;
+  padding: 12px 20px;
   background: linear-gradient(160deg, #1f1f23 0%, #141416 100%);
 }
 
@@ -215,11 +216,11 @@ body.is-remote {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .date-display {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--label-secondary);
   text-transform: capitalize;
@@ -243,7 +244,7 @@ body.is-remote {
 }
 
 .time-main {
-  font-size: 96px;
+  font-size: 88px;
   font-weight: 600;
   letter-spacing: -3px;
   color: #ffffff;
@@ -277,7 +278,8 @@ body.is-remote {
    WIDGET 2: CLIMA APPLE WEATHER (HOY + MAÑANA + 2 DÍAS)
    ============================================================ */
 .widget-weather {
-  justify-content: space-between;
+  justify-content: flex-start;
+  padding: 14px 18px;
   background: linear-gradient(155deg, #1b2f52 0%, #0d1629 100%);
   border-color: rgba(100, 210, 255, 0.16);
 }
@@ -290,6 +292,7 @@ body.is-remote {
 .weather-top-block {
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 }
 
 .weather-current-row {
@@ -306,10 +309,10 @@ body.is-remote {
 .weather-city-line {
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: #ffffff;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 
 .weather-city-line svg {
@@ -317,7 +320,7 @@ body.is-remote {
 }
 
 .weather-temp-hero {
-  font-size: 62px;
+  font-size: 54px;
   font-weight: 300;
   line-height: 1;
   color: #ffffff;
@@ -332,32 +335,32 @@ body.is-remote {
 }
 
 .weather-icon-hero {
-  height: 52px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
 
 .weather-desc-hero {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: #ffffff;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .weather-minmax-hero {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.78);
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .weather-sub-metrics {
   display: flex;
   align-items: center;
-  font-size: 12px;
+  font-size: 11px;
   color: rgba(255, 255, 255, 0.74);
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .weather-sub-metrics .dot-sep {
@@ -373,24 +376,27 @@ body.is-remote {
 .weather-divider {
   height: 1px;
   background: rgba(255, 255, 255, 0.14);
-  margin: 8px 0;
+  margin: 7px 0;
   flex-shrink: 0;
 }
 
-/* LISTA PRONÓSTICO ESTILO APPLE WEATHER */
+/* LISTA PRONÓSTICO 7 DÍAS ESTILO APPLE WEATHER */
 .weather-forecast-list {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  min-height: 0;
 }
 
 .forecast-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 10px;
-  margin-bottom: 5px;
-  border-radius: 11px;
-  font-size: 14px;
+  padding: 4px 10px;
+  margin-bottom: 2px;
+  border-radius: 10px;
+  font-size: 13px;
 }
 
 .forecast-row:last-child {
