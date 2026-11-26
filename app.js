@@ -198,6 +198,16 @@
       cat: 'news',
       color: '#636366',
       url: 'https://mdstrm.com/audio/5c915497c6fd7c085b29169d/icecast.audio'
+    },
+    {
+      id: 'navidad_mix',
+      name: 'Radio Navidad',
+      mono: '🎄',
+      dial: 'Online',
+      sub: 'Clásicos y Éxitos de Todos los Tiempos',
+      cat: 'xmas',
+      color: '#d70015',
+      url: 'https://listen.181fm.com/181-xmix_128k.mp3'
     }
   ];
 
