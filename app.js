@@ -204,10 +204,10 @@
       name: 'Radio Navidad',
       mono: '🎄',
       dial: 'Online',
-      sub: 'Clásicos y Éxitos de Todos los Tiempos',
+      sub: 'Clásicos Conocidos (Wham!, Bublé, Mariah)',
       cat: 'xmas',
       color: '#d70015',
-      url: 'https://listen.181fm.com/181-xmix_128k.mp3'
+      url: 'https://streaming.hotmixradio.fr/hotmix-christmas-en-mp3'
     }
   ];
 
